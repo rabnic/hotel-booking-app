@@ -10,8 +10,9 @@ function App() {
   return (
     <>
     <Navbar />
-    {/* <Rooms /> */}
+    <Rooms />
     <NewRoom />
+    <NotFound />
     </>
   );
 }

@@ -34,12 +34,12 @@ function Rooms() {
                 </div>
                 <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
                     <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                        <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                        <div className="hidden flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" className="px-4 py-3">Room No.</th>
                                         <th scope="col" className="px-4 py-3">Room Type</th>

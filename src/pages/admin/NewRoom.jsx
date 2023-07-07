@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { addNewRoom } from "../../services/hotel.service";
+import { addNewRoom, uploadRoomImages } from "../../services/hotel.service";
 
 
 const NewRoom = () => {
@@ -12,14 +12,16 @@ const NewRoom = () => {
   const [maxGuests, setMaxGuests] = useState(1);
   const [amenities, setAmenities] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [roomImages, setRoomImages] = useState([])
 
 
   const handleAddNewRoom = (e) => {
     e.preventDefault();
-    const room = { number, price, type, numBeds, maxGuests, bookings }
-    addNewRoom(room)
+    const room = { number, price, type, numBeds, maxGuests, bookings, amenities }
+    console.log(Array.from(roomImages));
+    uploadRoomImages(number, Array.from(roomImages))
+    // addNewRoom(room)
     console.log(room)
-
   }
 
 
@@ -135,6 +137,20 @@ const NewRoom = () => {
                     onChange={(e) => { setNumBeds(e.target.value) }}
                   />
                 </div>
+
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="multiple_files">Upload Room Images</label>
+                  <input
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    id="multiple_files"
+                    type="file"
+                    multiple 
+                    required
+                    onChange={e => {setRoomImages(e.target.files)}}
+                    />
+                </div>
+                {/* {block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400} */}
+
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="description"
@@ -148,56 +164,56 @@ const NewRoom = () => {
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="vue-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="vue-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vue JS</label>
+                        <label htmlFor="vue-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Feather Bedding</label>
                       </div>
                     </li>
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="react-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="react-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">TV</label>
+                        <label htmlFor="react-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">TV</label>
                       </div>
                     </li>
-                  
+
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">WiFi</label>
-                      </div>
-                    </li>
-                    <li className="w-full dark:border-gray-600">
-                      <div className="flex items-center pl-3">
-                        <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Toiletries</label>
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">WiFi</label>
                       </div>
                     </li>
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bathrobes</label>
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Toiletries</label>
                       </div>
                     </li>
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bar Fridge</label>
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bathrobes</label>
                       </div>
                     </li>
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hairdryer</label>
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bar Fridge</label>
                       </div>
                     </li>
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Complimentary coffee and teas</label>
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hairdryer</label>
                       </div>
                     </li>
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                        <label for="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Shower and bathtub</label>
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Complimentary Breakfast</label>
+                      </div>
+                    </li>
+                    <li className="w-full dark:border-gray-600">
+                      <div className="flex items-center pl-3">
+                        <input id="laravel-checkbox-list" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                        <label htmlFor="laravel-checkbox-list" className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Shower and bathtub</label>
                       </div>
                     </li>
                   </ul>

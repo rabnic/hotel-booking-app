@@ -19,8 +19,8 @@ function App() {
   return (
     <>
     <Navbar />
-    <Rooms />
-    {/* <NewRoom /> */}
+    {/* <Rooms /> */}
+    <NewRoom />
     <Footer />
     </>
   );

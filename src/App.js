@@ -8,6 +8,8 @@ import NewRoom from "./pages/admin/NewRoom";
 import Rooms from "./pages/admin/Rooms";
 
 import { addNewRoom, getAllRooms } from "./services/hotel.service";
+import Login from "./pages/guests/Login";
+import Register from "./pages/guests/Register";
 
 function App() {
 
@@ -20,7 +22,9 @@ function App() {
     <>
     <Navbar />
     {/* <Rooms /> */}
-    <NewRoom />
+    {/* <NewRoom /> */}
+    {/* <Login /> */}
+    <Register />
     <Footer />
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { addNewRoom, uploadRoomImages } from "../../services/hotel.service";
+import Sidebar from "../../components/admin/Sidebar";
 
 const NewRoom = () => {
   const [number, setNumber] = useState("");
@@ -36,8 +37,9 @@ const NewRoom = () => {
   };
 
   return (
-    <>
-      <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 ">
+    <main className="flex relative">
+      <Sidebar />
+      <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 mx-auto">
         <div className="w-full xl:w-2/3 p-4 mx-auto my-auto">
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white ">
             New Room
@@ -188,7 +190,7 @@ const NewRoom = () => {
                   </label>
 
                   {/* <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">Identification</h3> */}
-                  <ul className="flex flex-wrap w-full text-sm font-medium text-gray-900 bg-white border border-gray-900 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <ul className="grid gap-0 sm:grid-cols-2 sm:gap-2 text-sm font-medium text-gray-900 bg-white border border-gray-900 rounded-lg  dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
@@ -199,7 +201,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="vue-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Feather Bedding
                         </label>
@@ -215,7 +217,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="react-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           TV
                         </label>
@@ -232,7 +234,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           WiFi
                         </label>
@@ -248,7 +250,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Toiletries
                         </label>
@@ -264,7 +266,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Bathrobes
                         </label>
@@ -280,7 +282,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Bar Fridge
                         </label>
@@ -296,7 +298,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Hairdryer
                         </label>
@@ -312,7 +314,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Complimentary Breakfast
                         </label>
@@ -328,7 +330,7 @@ const NewRoom = () => {
                         />
                         <label
                           htmlFor="laravel-checkbox-list"
-                          className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="ext-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Shower and bathtub
                         </label>
@@ -347,7 +349,7 @@ const NewRoom = () => {
           </div>
         </section>
       </section>
-    </>
+    </main>
   );
 };
 

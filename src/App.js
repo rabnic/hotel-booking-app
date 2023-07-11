@@ -1,20 +1,22 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import "./App.css";
 import Footer from "./components/Footer";
 import Navbar from "./components/admin/Navbar";
 import NotFound from "./pages/NotFound";
 import NewRoom from "./pages/admin/NewRoom";
-import Rooms from "./pages/admin/Rooms";
+// import Rooms_ from "./pages/admin/Rooms_";
 
 import { addNewRoom, getAllRooms } from "./services/hotel.service";
 import Login from "./pages/guests/Login";
 import Register from "./pages/guests/Register";
+import Rooms from "./pages/guests/rooms";
+
 
 function App() {
   // testAdd();
   useEffect(() => {
-    getAllRooms();
+    // getAllRooms();
   }, []);
 
   return (
@@ -22,8 +24,9 @@ function App() {
       <Navbar />
       {/* <Rooms /> */}
       {/* <NewRoom /> */}
-      <Login />
+      {/* <Login /> */}
       {/* <Register /> */}
+      <Rooms />
       <Footer />
     </>
   );

@@ -4,7 +4,7 @@ import { deleteRoom, getAllRooms } from "../../services/hotel.service";
 import { onSnapshot } from "firebase/firestore";
 
 
-function Rooms() {
+function Rooms_() {
 
     const [roomsDB, setRoomsDB] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -148,4 +148,4 @@ function Rooms() {
     )
 }
 
-export default Rooms
+export default Rooms_

@@ -10,7 +10,12 @@ import {
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
+
+export const auth = getAuth();
+const USERS = 'users';
+const ROOMS = 'rooms'
 
 export const addNewRoom = async (room) => {
   try {
@@ -55,7 +60,7 @@ export const uploadRoomImages = async (roomNumber, images) => {
 export const registerNewGuest = async (guest) => {
   try {
     // Add a new document in collection "cities"
-    const docRef = await setDoc(doc(db, "guests", guest.email), guest);
+    const docRef = await setDoc(doc(db, USERS, guest.email), guest);
     console.log("Guest registered", docRef)
   } catch (e) {
     console.error("Error adding guest document: ", e);
@@ -63,21 +68,12 @@ export const registerNewGuest = async (guest) => {
 }
 
 export const createGuestAuth = async (email, password) => {
-  const auth = getAuth();
+
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      /*
-      user.updateProfile({
-        displayName: username
-    }).then(function() {
-        // Update successful.
-    }, function(error) {
-        // An error happened.
-    });
-      */
+    .then((user) => {
       // Signed in 
       console.log('Signed in');
-      console.log(userCredential.user);
+      console.log(user);
       console.log(auth);
     })
     .catch((error) => {
@@ -85,4 +81,31 @@ export const createGuestAuth = async (email, password) => {
     });
 }
 
-// export const login
+export const login = async (email, password) => {
+
+   await signInWithEmailAndPassword(auth, email, password);
+    // .then((userCredential) => {
+    //   // Signed in 
+    //   const user = userCredential.user;
+    //   console.log(user);
+    //   // ...
+    // })
+    // .catch((error) => {
+    //   const errorCode = error.code;
+    //   const errorMessage = error.message;
+    //   console.log(errorCode, errorMessage);
+    // });
+}
+
+export const getUser = async (email) => {
+  const userDocRef = doc(db, USERS, email);
+  const docSnap = await getDoc(userDocRef);
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data();
+  } else {
+    console.log("No such document!");
+    return null
+  }
+}
+

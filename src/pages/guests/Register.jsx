@@ -11,13 +11,12 @@ function Register() {
     const handleRegisterGuest = (e) => {
         e.preventDefault();
         createGuestAuth(email, password).then(() => {
-            registerNewGuest({ name, email, phone })
+            registerNewGuest({ name, email, phone, booking: '', role: 'guest' })
         }
         ).catch((err) => {
             console.log(err.message);
         }
         );
-
     }
     return (
         <main>

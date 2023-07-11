@@ -12,20 +12,19 @@ import Login from "./pages/guests/Login";
 import Register from "./pages/guests/Register";
 
 function App() {
-
   // testAdd();
-  useEffect(()=>{
+  useEffect(() => {
     getAllRooms();
-  },[])
+  }, []);
 
   return (
     <>
-    <Navbar />
-    {/* <Rooms /> */}
-    {/* <NewRoom /> */}
-    {/* <Login /> */}
-    <Register />
-    <Footer />
+      <Navbar />
+      {/* <Rooms /> */}
+      {/* <NewRoom /> */}
+      <Login />
+      {/* <Register /> */}
+      <Footer />
     </>
   );
 }

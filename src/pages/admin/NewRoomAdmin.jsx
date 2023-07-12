@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { addNewRoom, uploadRoomImages } from "../../services/hotel.service";
-import Sidebar from "../../components/admin/Sidebar";
+import Sidebar from "../../components/admin/SidebarAdmin";
 
-const NewRoom = () => {
+const NewRoomAdmin = () => {
   const [number, setNumber] = useState("");
   const [price, setPrice] = useState("");
   const [type, setType] = useState("");
@@ -353,4 +353,4 @@ const NewRoom = () => {
   );
 };
 
-export default NewRoom;
+export default NewRoomAdmin;

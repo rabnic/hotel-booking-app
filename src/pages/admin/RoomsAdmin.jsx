@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import { deleteRoom, getAllRooms } from "../../services/hotel.service";
 import { onSnapshot } from "firebase/firestore";
 
 
-function Rooms_() {
+function RoomsAdmin() {
 
     const [roomsDB, setRoomsDB] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -144,8 +145,9 @@ function Rooms_() {
                     </div>
                 </div>
             </section>
+            <Outlet />
         </>
     )
 }
 
-export default Rooms_
+export default RoomsAdmin;

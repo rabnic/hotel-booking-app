@@ -3,7 +3,7 @@ import RoomCard from '../../components/guests/RoomCard'
 
 function Rooms() {
     return (
-        <main className='py-4 px-4 lg:w-3/4 mx-auto' >
+        <main className='mt-24 py-4 px-4 lg:w-3/4 mx-auto' >
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">Exquisite rooms at GREAT-STAY</h1>
             <p className="mb-6 text-lg font-normal text-gray-600 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
                 Escape to our exquisite hotel and indulge in a world of luxury and relaxation. Experience impeccable service, breathtaking views,

@@ -5,7 +5,7 @@ function RoomCard() {
         <>
             <div className="cursor-pointer rounded-xl bg-white p-3 shadow-lg hover:shadow-x2 hover:shadow-orange-800">
                 <div className="relative flex items-end overflow-hidden rounded-xl">
-                    <img src="./assets/images/room1.jpg" alt="wallpaper" />
+                    <img src="/assets/images/room1.jpg" alt="wallpaper" />
 
                     <div className="absolute bottom-3 left-3 inline-flex items-center rounded-lg bg-white p-2 shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">

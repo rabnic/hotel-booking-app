@@ -1,6 +1,8 @@
 import React from "react";
 
-function Navbar() {
+// import Logo from './logo.png';
+
+function NavbarAdmin() {
   return (
     <>
       {/* <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
@@ -97,13 +99,13 @@ function Navbar() {
           </svg>
         </button>
           <div className='hidden'>
-            <img src='./assets/icons/menu-bar.png' alt="" className="w-8 h-8 bg-slate-100 rounded-md" />
+            <img src='/assets/icons/menu-bar.png' alt="" className="w-8 h-8 bg-slate-100 rounded-md" />
           </div>
           <div className=''>
-            <img src='./logo.png' alt="" className="h-8" />
+            <img src='/logo.png' alt="" className="h-8" />
           </div>
           <div className='ml-auto flex items-center gap-3'>
-            <img src='./assets/icons/user.png' alt="" className="w-8 h-8" />
+            <img src='/assets/icons/user.png' alt="" className="w-8 h-8" />
             <p className='text-green-600 text-lg font-semibold'>John Doe</p>
           </div>
         </div>
@@ -112,4 +114,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarAdmin;

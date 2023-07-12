@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
 
-import "./App.css";
 import Footer from "./components/Footer";
 // import Navbar from "./components/admin/Navbar_";
 import Navbar from "./components/guests/Navbar";
@@ -14,11 +12,9 @@ import Login from "./pages/guests/Login";
 import Register from "./pages/guests/Register";
 import Rooms from "./pages/guests/rooms";
 import Room from "./pages/guests/room";
-import AppAdmin from "./AppAdmin";
-import AppGuests from "./AppGuests";
 
 
-function App() {
+function AppGuests() {
   // testAdd();
   useEffect(() => {
     // getAllRooms();
@@ -26,14 +22,16 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
-    {false ?
-        <AppAdmin />
-        :
-        <AppGuests />}
-    </BrowserRouter>
+      <Navbar />
+      {/* <Rooms /> */}
+      {/* <NewRoom /> */}
+      {/* <Login /> */}
+      {/* <Register /> */}
+      {/* <Rooms /> */}
+      <Rooms />
+      <Footer />
     </>
   );
 }
 
-export default App;
+export default AppGuests;

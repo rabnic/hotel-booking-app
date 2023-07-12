@@ -8,7 +8,7 @@ const Footer = () => {
               href="https://g-stay.com/"
               className="flex items-center mb-4 sm:mb-0"
             >
-              <img src="./logo.png" className="h-8 mr-3" alt="Flowbite Logo" />
+              <img src="/logo.png" className="h-8 mr-3" alt="Flowbite Logo" />
             </a>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
               <li>

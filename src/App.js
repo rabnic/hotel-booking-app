@@ -1,39 +1,80 @@
-import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+// import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getUser } from "./services/hotel.service";
 
 import "./App.css";
-import Footer from "./components/Footer";
-// import Navbar from "./components/admin/Navbar_";
-import Navbar from "./components/guests/Navbar";
-import NotFound from "./pages/NotFound";
-import NewRoom from "./pages/admin/NewRoomAdmin";
-// import Rooms_ from "./pages/admin/Rooms_";
 
-import { addNewRoom, getAllRooms } from "./services/hotel.service";
-import Login from "./pages/guests/Login";
-import Register from "./pages/guests/Register";
-import Rooms from "./pages/guests/rooms";
-import Room from "./pages/guests/room";
 import AppAdmin from "./AppAdmin";
 import AppGuests from "./AppGuests";
 
-
 function App() {
-  // testAdd();
+  const [currentUser, setCurrentUser] = useState();
+
+  currentUser && console.log(currentUser);
+
   useEffect(() => {
     // getAllRooms();
-  }, []);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        getUser(user.email)
+          .then((result) => {
+            setCurrentUser(result);
+            console.log("user in", result);
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+        // ...
+      } else {
+        // User is signed out
+        console.log("user out", user);
 
-  return (
-    <>
-    <BrowserRouter>
-    {false ?
-        <AppAdmin />
-        :
-        <AppGuests />}
-    </BrowserRouter>
-    </>
-  );
+        setCurrentUser(null);
+        // ...
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+  currentUser && console.log(currentUser);
+
+  if (currentUser && currentUser.role === "admin") {
+    return <AppAdmin user={currentUser} />;
+  }
+
+  return <AppGuests />;
+
+  // return (
+  //   <>
+
+  //       <Routes>
+  //         <Route
+  //           path="*"
+  //           element={
+  //             currentUser && currentUser.role === "admin" ? (
+  //               <AppAdmin />
+  //             ) : (
+  //               <AppGuests />
+  //             )
+  //           }
+  //         />
+  //         <Route
+  //           path="/admin/*"
+  //           element={
+  //             currentUser && currentUser.role === "admin" ? (
+  //               <AppAdmin />
+  //             ) : (
+  //               <AppGuests />
+  //             )
+  //           }
+  //         />
+  //       </Routes>
+
+  //   </>
+  // );
 }
 
 export default App;

@@ -7,15 +7,20 @@ import {
   getDoc,
   getDocs,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 export const auth = getAuth();
-const USERS = 'users';
-const ROOMS = 'rooms'
+const USERS = "users";
+const ROOMS = "rooms";
 
 export const addNewRoom = async (room) => {
   try {
@@ -28,6 +33,40 @@ export const addNewRoom = async (room) => {
 
 export const getAllRooms = async () => {
   const querySnapshot = await getDocs(collection(db, "rooms"));
+  return querySnapshot;
+};
+
+export const getRoomsByType = async (roomType) => {
+  const roomsRef = collection(db, ROOMS);
+  const byTypeQuery = query(roomsRef, where("type", "==", roomType));
+  const querySnapshot = await getDocs(byTypeQuery);
+  return querySnapshot;
+};
+
+export const getRoomsByPriceRange = async (priceStart, priceEnd) => {
+  const roomsRef = collection(db, ROOMS);
+  const byPriceQuery = query(
+    roomsRef,
+    where("price", ">=", priceStart),
+    where("price", "<=", priceEnd)
+  );
+  const querySnapshot = await getDocs(byPriceQuery);
+  return querySnapshot;
+};
+
+export const getRoomsByTypeAndPriceRange = async (
+  roomType,
+  priceStart,
+  priceEnd
+) => {
+  const roomsRef = collection(db, ROOMS);
+  const byTypeAndPriceQuery = query(
+    roomsRef,
+    where("type", "==", roomType),
+    where("price", ">=", priceStart),
+    where("price", "<=", priceEnd)
+  );
+  const querySnapshot = await getDocs(byTypeAndPriceQuery);
   return querySnapshot;
 };
 
@@ -61,51 +100,53 @@ export const registerNewGuest = async (guest) => {
   try {
     // Add a new document in collection "cities"
     const docRef = await setDoc(doc(db, USERS, guest.email), guest);
-    console.log("Guest registered", docRef)
+    console.log("Guest registered", docRef);
   } catch (e) {
     console.error("Error adding guest document: ", e);
   }
-}
+};
 
 export const createGuestAuth = async (email, password) => {
-
   createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
-      // Signed in 
-      console.log('Signed in');
+      // Signed in
+      console.log("Signed in");
       console.log(user);
       console.log(auth);
     })
     .catch((error) => {
-      console.log('Error Code=', error.code, ' ---- Error Message=', error.message);
+      console.log(
+        "Error Code=",
+        error.code,
+        " ---- Error Message=",
+        error.message
+      );
     });
-}
+};
 
 export const login = async (email, password) => {
-
-   await signInWithEmailAndPassword(auth, email, password);
-    // .then((userCredential) => {
-    //   // Signed in 
-    //   const user = userCredential.user;
-    //   console.log(user);
-    //   // ...
-    // })
-    // .catch((error) => {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   console.log(errorCode, errorMessage);
-    // });
-}
+  await signInWithEmailAndPassword(auth, email, password);
+  // .then((userCredential) => {
+  //   // Signed in
+  //   const user = userCredential.user;
+  //   console.log(user);
+  //   // ...
+  // })
+  // .catch((error) => {
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  //   console.log(errorCode, errorMessage);
+  // });
+};
 
 export const getUser = async (email) => {
   const userDocRef = doc(db, USERS, email);
   const docSnap = await getDoc(userDocRef);
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+    // console.log("Document data:", docSnap.data());
     return docSnap.data();
   } else {
     console.log("No such document!");
-    return null
+    return null;
   }
-}
-
+};

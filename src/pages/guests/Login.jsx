@@ -1,48 +1,53 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+// import { getAuth } from "firebase/auth";
 
 import Alert from "../../components/Alert";
 
 import { getUser, login } from "../../services/hotel.service";
 
 function Login() {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isShowAlert, setIsShowAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState({});
-
-
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login(email, password).then(() => {
-      getUser(email).then((userDoc) => {
-        if (userDoc) {
-          setIsShowAlert(true);
-          setAlertStatus({ type: 'success', message: 'Login successful' })
-        } else {
-          setIsShowAlert(true);
-          setAlertStatus({ type: 'danger', message: 'Login unsuccessful! Check your email or password.' });
-        }
-      }
-
-      ).catch((error) => {
-        console.log(error.message);
-      }
-
-      )
-    }
-
-    ).catch((error => {
-      setIsShowAlert(true);
-      setAlertStatus({ type: 'danger', message: 'Login unsuccessful! Check your email or password.' });
-    })
-
-    )
-  }
+    login(email, password)
+      .then(() => {
+        getUser(email)
+          .then((userDoc) => {
+            if (userDoc) {
+              setIsShowAlert(true);
+              setAlertStatus({ type: "success", message: "Login successful" });
+              console.log(userDoc);
+              const goTo = userDoc.role === "admin" ? "/admin" : "/";
+              navigate(goTo);
+            } else {
+              setIsShowAlert(true);
+              setAlertStatus({
+                type: "danger",
+                message: "Login unsuccessful! Check your email or password.",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      })
+      .catch((error) => {
+        setIsShowAlert(true);
+        setAlertStatus({
+          type: "danger",
+          message: "Login unsuccessful! Check your email or password.",
+        });
+      });
+  };
 
   return (
-    <main>
+    <main className="mt-24 py-4 px-4 lg:w-3/4 mx-auto">
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -59,7 +64,17 @@ function Login() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleLogin}>
+              <p className="text-sm text-blue-400 dark:text-gray-400">
+                Admin test:{" "}
+                <span className="text-blue-600">
+                  email= admin_n@g-stay.co.za password= admin101
+                </span>
+              </p>
+              <form
+                className="space-y-4 md:space-y-6"
+                action="#"
+                onSubmit={handleLogin}
+              >
                 <div>
                   <label
                     htmlFor="email"
@@ -75,7 +90,9 @@ function Login() {
                     placeholder="name@company.com"
                     required
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value) }}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
                   />
                 </div>
                 <div>
@@ -93,7 +110,9 @@ function Login() {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                     value={password}
-                    onChange={(e) => { setPassword(e.target.value) }}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
                   />
                 </div>
 
@@ -107,12 +126,12 @@ function Login() {
                 </button>
                 <p className="text-sm  text-gray-700 dark:text-gray-400">
                   Don’t have an account yet?{" "}
-                  <a
-                    href="#"
+                  <Link
+                    to="/register"
                     className="font-medium text-orange-700 hover:underline dark:text-orange-400"
                   >
                     Register
-                  </a>
+                  </Link>
                 </p>
               </form>
             </div>

@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import Sidebar from "../../components/admin/SidebarAdmin";
 
 function UpdateRoomAdmin() {
   return (
-    <div>UpdateRoomAdmin</div>
-  )
+    <main>
+      <Sidebar />
+
+      <div>UpdateRoomAdmin</div>
+    </main>
+  );
 }
 
-export default UpdateRoomAdmin
+export default UpdateRoomAdmin;

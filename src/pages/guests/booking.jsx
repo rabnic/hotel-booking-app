@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { addBooking } from "../../services/hotel.service";
 
 function Booking() {
+  const initialDate = new Date();
+
+  const [checkInDate, setCheckInDate] = useState(
+    initialDate.toISOString().slice(0, 10)
+  );
+  const [checkOutDate, setCheckOutDate] = useState(
+    initialDate.toISOString().slice(0, 10)
+  );
+
   const handleAddBooking = (e) => {
-    addBooking("ZmSbofQFFE7fpQ9wPvYX", {bookingId: '100',checkIn:'27-07-2023', checkOut: "29-07-2023"});
-  }
+    // addBooking("ZmSbofQFFE7fpQ9wPvYX", {
+    //   bookingId: "100",
+    //   checkIn: "27-07-2023",
+    //   checkOut: "29-07-2023",
+    // }
+    // );
+    console.log(checkInDate, checkOutDate);
+    console.log("below dates");
+  };
   return (
     <main className="mt-20 py-4 px-4 lg:w-3/4 mx-auto">
       <section className="bg-white dark:bg-gray-900">
@@ -18,18 +34,58 @@ function Booking() {
           <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
           <div date-rangepicker class="flex items-center">
             <div class="relative">
-              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Check In</label>
-              <input name="start" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Check-In" />
+              <label
+                for="first_name"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Check In
+              </label>
+              <input
+                name="start"
+                type="date"
+                value={checkInDate}
+                id="check-in"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                onChange={(e) => {
+                  setCheckInDate(e.target.value);
+                }}
+              />
             </div>
             <span class="mx-4 text-gray-500">to</span>
-            <div class="relative"  htmlFfor="check-in">
-              <label htmlFor="check-in" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Check Out</label>
-              <input name="end" type="date" id="check-out" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Check-Out" />
+            <div class="relative" htmlFfor="check-in">
+              <label
+                htmlFor="check-in"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Check Out
+              </label>
+              <input
+                name="end"
+                type="date"
+                id="check-out"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={checkOutDate}
+                onChange={(e) => {
+                  setCheckOutDate(e.target.value);
+                }}
+              />
             </div>
             <span class="mx-4"></span>
             <div class="relative">
-            <label htmlFor="check-out" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white invisible">check</label>
-              <input name="end" onClick={handleAddBooking} type="button" id="check-out" class="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="Check Availability" />
+              <label
+                htmlFor="check-out"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white invisible"
+              >
+                check
+              </label>
+              <input
+                name="end"
+                onClick={handleAddBooking}
+                type="button"
+                id="check-out"
+                class="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value="Check Availability"
+              />
             </div>
           </div>
           <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />

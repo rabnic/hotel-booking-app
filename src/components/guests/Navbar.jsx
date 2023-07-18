@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="bg-slate-900 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 dark:border-gray-600 text-slate-200">
+    <nav className="bg-slate-900 bg-opacity-95 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 dark:border-gray-600 text-slate-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="" className="flex items-center">
           <img src="/logo.png" className="h-8 mr-3" alt="G-STAY Logo" />

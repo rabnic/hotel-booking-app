@@ -36,6 +36,16 @@ export const getAllRooms = async () => {
   return querySnapshot;
 };
 
+// export const getRoom = async (roomId) => {
+//   const docRef = await getDoc(collection(db, "rooms", roomId));
+// }
+
+export const addBooking = async (roomId, bookingObject) => {
+  const docRef =  doc(db, "rooms", roomId);
+  const collectionRef = collection(docRef, "theBookings");
+  await addDoc(collectionRef, bookingObject);
+}
+
 export const getRoomsByType = async (roomType) => {
   const roomsRef = collection(db, ROOMS);
   const byTypeQuery = query(roomsRef, where("type", "==", roomType));
@@ -150,3 +160,4 @@ export const getUser = async (email) => {
     return null;
   }
 };
+

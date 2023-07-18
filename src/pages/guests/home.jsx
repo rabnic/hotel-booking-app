@@ -2,8 +2,8 @@ import React from "react";
 
 function Home() {
   return (
-    <main className="min-w-full  lg:w-3/4 mx-auto ">
-      <section className="min-w-full h-full">
+    <main className="mt-24 min-w-full  lg:w-3/4 mx-auto ">
+      <section className="min-w-full min-h-full border border-red-600">
         <div
           className="relative overflow-hidden bg-cover bg-no-repeat "
           style={{

@@ -10,7 +10,7 @@ const NewRoomAdmin = () => {
   const [numBeds, setNumBeds] = useState(1);
   const [maxGuests, setMaxGuests] = useState(1);
   const [amenities, setAmenities] = useState([]);
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState({});
   const [roomImages, setRoomImages] = useState([]);
 
   const handleAddNewRoom = (e) => {

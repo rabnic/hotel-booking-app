@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Room = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const room = location.state.room;
+  const room = location.state;
   console.log(location.state);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const Room = () => {
             {/* ::Main Picture */}
             <div className="w-auto h-56 sm:h-72 lg:h-full max-h-96 overflow-hidden">
               <img
-                src={room.images[mainPicture]}
+                src={room.room.images[mainPicture]}
                 alt="room main img"
                 className="object-contain w-full h-full"
               />
@@ -89,7 +89,7 @@ const Room = () => {
             {/* ::Gallery */}
             <div className="mt-6 mx-auto">
               <ul className="grid grid-flow-col auto-cols-fr gap-4">
-                {room.images
+                {room.room.images
                   .slice(0, 4) // Here you can manage the number of pictures displayed
                   .map((image, index) => (
                     <li
@@ -123,11 +123,11 @@ const Room = () => {
             <div className="order-3 lg:order-1 pb-5 sm:px-6 lg:border-b-2 border-gray-200">
               {/* :::Name */}
               <h1 className="mt-2 text-4xl text-gray-700 font-light tracking-wide">
-                {room.type + " Room"}
+                {room.room.type + " Room"}
               </h1>
               {/* :::Description */}
               <p className="mt-10 text-base text-gray-500">
-                {roomDescription[room.type]}
+                {roomDescription[room.room.type]}
               </p>
               {/* :::Features */}
 
@@ -156,11 +156,12 @@ const Room = () => {
               {/* :::Price */}
               <span className="m-2.5 text-4xl text-gray-500 font-extrabold">
                 <span className="font-normal">R</span>
-                {room.price}
+                {room.room.price}
               </span>
               {/* :::Add to cart button */}
               <button
                 type="button"
+                onClick={() => {navigate('/booking')}}
                 className="m-2.5 py-1.5 px-5 inline-flex items-center rounded-md bg-orange-500 text-base text-white font-semibold uppercase whitespace-nowrap hover:bg-orange-600"
               >
                 {/* <ShoppingBagIcon className="mr-3 w-6 h-6" /> */}

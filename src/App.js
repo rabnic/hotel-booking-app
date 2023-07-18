@@ -16,11 +16,11 @@ function App() {
   useEffect(() => {
     // getAllRooms();
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const  unsubscribe =  onAuthStateChanged(auth, async (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
-        getUser(user.email)
+        await getUser(user.email)
           .then((result) => {
             setCurrentUser(result);
             console.log("user in", result);
@@ -44,7 +44,7 @@ function App() {
   if (currentUser && currentUser.role === "admin") {
     return <AppAdmin user={currentUser} />;
   }
-
+ 
   return <AppGuests />;
 
   // return (

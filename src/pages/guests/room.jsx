@@ -161,7 +161,7 @@ const Room = () => {
               {/* :::Add to cart button */}
               <button
                 type="button"
-                onClick={() => {navigate('/booking')}}
+                onClick={() => {navigate('/booking', {state: room.room})}}
                 className="m-2.5 py-1.5 px-5 inline-flex items-center rounded-md bg-orange-500 text-base text-white font-semibold uppercase whitespace-nowrap hover:bg-orange-600"
               >
                 {/* <ShoppingBagIcon className="mr-3 w-6 h-6" /> */}

@@ -1,43 +1,64 @@
-import React, { useState } from "react";
-import { addBooking } from "../../services/hotel.service";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+
+
+import { addBooking, getRoomBookings, checkRoomAvailability } from "../../services/hotel.service";
 import { getTodayAndTomorrowDate } from "../../utils/utils";
-import { Timestamp } from 'firebase/firestore'
+// import { Timestamp } from 'firebase/firestore'
 
 
 
-function Booking() {
+const Booking = () => {
+
+  const roomState = useLocation().state;
+  console.log(roomState);
 
   const [today, tomorrow] = getTodayAndTomorrowDate();
 
+  const [roomUnderCheck, setRoomUnderCheck] = useState(roomState)
   const [checkInDate, setCheckInDate] = useState(today);
   const [checkOutDate, setCheckOutDate] = useState(tomorrow);
 
-  
+  useEffect(() => {
 
-  // const checkInTime = "13:00:00";
-  // const checkOutTime = "10:00:00";
+  })
 
-  const booking = 
-    {
-      guestEmail: '',
-      checkIn:'',
-      checkOut:'',
-      guestsQuantity:1,
-      totalCost: 0,
-      status: ''
-    }
-  
+
+  const checkInTime = "13:00:00";
+  const checkOutTime = "10:00:00";
+
+  const booking =
+  {
+    guestEmail: 'none',
+    checkIn: new Date(`${checkInDate}T${checkInTime}`).getTime(),
+    checkOut:new Date(`${checkOutDate}T${checkOutTime}`).getTime(),
+    guestsQuantity: 1,
+    totalCost: 0,
+    status: 'in-progress'
+  }
+
+  const handleGetRoomBookings = (e) => {
+    getRoomBookings(roomUnderCheck.id).then(roomBookings => {
+      console.log(roomBookings);
+    }).catch(err => {
+      console.log(err.message)
+    })
+  }
+
 
   const handleAddBooking = (e) => {
-    // addBooking("ZmSbofQFFE7fpQ9wPvYX", {
-    //   bookingId: "100",
-    //   checkIn: "27-07-2023",
-    //   checkOut: "29-07-2023",
-    // }
-    // );
-    console.log(new Date(checkInDate), checkOutDate);
-    console.log("below dates");
-
+    checkRoomAvailability(roomUnderCheck.id, booking.checkIn, booking.checkOut).then((isAvailable) => {
+      if (isAvailable) {
+        console.log("Room is available")
+        addBooking(roomUnderCheck.id, booking);
+      } else {
+        alert("Room not available")
+      }
+    })
+    // console.log(roomUnderCheck.id)
+    // console.log(new Date(checkInDate), checkOutDate);
+    // console.log("below dates");
   };
   return (
     <main className="mt-20 py-4 px-4 lg:w-3/4 mx-auto">
@@ -100,7 +121,7 @@ function Booking() {
               </label>
               <input
                 name="end"
-                onClick={handleAddBooking}
+                onClick={handleGetRoomBookings}
                 type="button"
                 id="check-out"
                 className="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -108,6 +129,10 @@ function Booking() {
               />
             </div>
           </div>
+          <button
+            className="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="button"  
+            onClick={handleAddBooking}>Add Booking</button>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
       </section>

@@ -21,6 +21,82 @@ export const auth = getAuth();
 const USERS = "users";
 const ROOMS = "rooms";
 
+// Utility functions
+const mapToRoomsArray = (data) => {
+  return data.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  });
+};
+
+const isRoomAvailable = (bookings, checkIn, checkOut) => {
+  if (bookings.length === 0) {
+    return true;
+  }
+
+  bookings.forEach((booking) => {
+    // Check if first range is wholly within second range
+    if (booking.checkIn >= checkIn && booking.checkOut <= checkOut) {
+      return false;
+    }
+
+    // Check if second range is wholly within first range
+    if (checkIn >= booking.checkIn && checkOut <= booking.checkOut) {
+      return false;
+    }
+
+    // Check if ranges overlap
+    if (booking.checkIn < checkIn && booking.checkOut > checkIn) {
+      return false;
+    }
+
+    if (checkIn < booking.checkIn && checkOut > booking.checkIn) {
+      return false;
+    }
+
+    // If ranges do not overlap or are not wholly within each other, there is no overlap
+    return true;
+  });
+};
+
+//
+
+function checkRangeOverlap(start1, end1, start2, end2) {
+  if (start1 <= end2 && end1 >= start2) {
+    return "Overlaps";
+  } else if (start1 >= start2 && end1 <= end2) {
+    return "Within";
+  } else {
+    return "No Overlap";
+  }
+}
+
+// Test cases
+const testCases = [
+  [1, 5, 6, 10], // No Overlap
+  [1, 10, 5, 15], // Overlaps
+  [10, 20, 5, 25], // Overlaps
+  [30, 40, 10, 25], // No Overlap
+  [10, 20, 5, 15], // Within
+  [5, 15, 10, 20], // Within
+  [1, 5, 5, 10], // Overlaps
+  [1, 10, 10, 15], // Overlaps
+  [5, 15, 1, 5], // Overlaps
+  [10, 20, 20, 30], // Overlaps
+];
+
+testCases.forEach(([start1, end1, start2, end2]) => {
+  console.log(
+    `Range [${start1}, ${end1}] and [${start2}, ${end2}]: ${checkRangeOverlap(
+      start1,
+      end1,
+      start2,
+      end2
+    )}`
+  );
+});
+
+//
+
 export const addNewRoom = async (room) => {
   try {
     const docRef = await addDoc(collection(db, "rooms"), room);
@@ -32,7 +108,7 @@ export const addNewRoom = async (room) => {
 
 export const getAllRooms = async () => {
   const querySnapshot = await getDocs(collection(db, "rooms"));
-  return querySnapshot;
+  return mapToRoomsArray(querySnapshot.docs);
 };
 
 // export const getRoom = async (roomId) => {
@@ -93,9 +169,9 @@ export const uploadRoomImages = async (roomNumber, images) => {
   for (let [index, image] of images.entries()) {
     const imageRef = ref(storage, `/rooms/room${roomNumber}/${index}`);
     await uploadBytes(imageRef, image)
-      .then((snapshot) => {
+      .then(async (snapshot) => {
         // console.log(image.name, "upload success");
-        getDownloadURL(snapshot.ref).then((url) => {
+        await getDownloadURL(snapshot.ref).then((url) => {
           //   console.log(url);
           imagesUrls.push(url);
         });

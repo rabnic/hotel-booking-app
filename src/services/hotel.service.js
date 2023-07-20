@@ -59,6 +59,38 @@ const isRoomAvailable = (bookings, checkIn, checkOut) => {
   })
 }
 
+//
+
+function checkRangeOverlap(start1, end1, start2, end2) {
+  if (start1 <= end2 && end1 >= start2) {
+    return "Overlaps";
+  } else if (start1 >= start2 && end1 <= end2) {
+    return "Within";
+  } else {
+    return "No Overlap";
+  }
+}
+
+// Test cases
+const testCases = [
+  [1, 5, 6, 10],  // No Overlap
+  [1, 10, 5, 15], // Overlaps
+  [10, 20, 5, 25], // Overlaps
+  [30, 40, 10, 25], // No Overlap
+  [10, 20, 5, 15], // Within
+  [5, 15, 10, 20], // Within
+  [1, 5, 5, 10], // Overlaps
+  [1, 10, 10, 15], // Overlaps
+  [5, 15, 1, 5], // Overlaps
+  [10, 20, 20, 30], // Overlaps
+];
+
+testCases.forEach(([start1, end1, start2, end2]) => {
+  console.log(`Range [${start1}, ${end1}] and [${start2}, ${end2}]: ${checkRangeOverlap(start1, end1, start2, end2)}`);
+});
+ 
+//
+
 export const addNewRoom = async (room) => {
   try {
     const docRef = await addDoc(collection(db, "rooms"), room);

@@ -2,7 +2,6 @@ import {
   collection,
   addDoc,
   setDoc,
-  updateDoc,
   deleteDoc,
   getDoc,
   getDocs,
@@ -40,15 +39,13 @@ export const getAllRooms = async () => {
 //   const docRef = await getDoc(collection(db, "rooms", roomId));
 // }
 
-export const checkAvailability = (roomType, checkInDate, checkOutDate) => {
-  
-}
+export const checkAvailability = (roomType, checkInDate, checkOutDate) => {};
 
 export const addBooking = async (roomId, bookingObject) => {
-  const docRef =  doc(db, "rooms", roomId);
+  const docRef = doc(db, "rooms", roomId);
   const collectionRef = collection(docRef, "theBookings");
   await addDoc(collectionRef, bookingObject);
-}
+};
 
 export const getRoomsByType = async (roomType) => {
   const roomsRef = collection(db, ROOMS);
@@ -94,7 +91,6 @@ export const uploadRoomImages = async (roomNumber, images) => {
 
   // Upload 1 image at a time
   for (let [index, image] of images.entries()) {
-    // console.log(index)
     const imageRef = ref(storage, `/rooms/room${roomNumber}/${index}`);
     await uploadBytes(imageRef, image)
       .then((snapshot) => {
@@ -102,16 +98,12 @@ export const uploadRoomImages = async (roomNumber, images) => {
         getDownloadURL(snapshot.ref).then((url) => {
           //   console.log(url);
           imagesUrls.push(url);
-    console.log(index)
-
         });
       })
       .catch((err) => {
         console.log(err.message);
       });
   }
-  console.log('done')
-  console.log(imagesUrls);
   return imagesUrls;
 };
 
@@ -169,4 +161,3 @@ export const getUser = async (email) => {
     return null;
   }
 };
-

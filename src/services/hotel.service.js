@@ -22,6 +22,43 @@ export const auth = getAuth();
 const USERS = "users";
 const ROOMS = "rooms";
 
+// Utility functions
+const mapToRoomsArray = (data) => {
+  return data.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  })
+}
+
+const isRoomAvailable = (bookings, checkIn, checkOut) => {
+  if (bookings.length === 0) {
+    return true;
+  }
+
+  bookings.forEach((booking) => {
+    // Check if first range is wholly within second range
+    if (booking.checkIn >= checkIn && booking.checkOut <= checkOut) {
+      return false
+    }
+
+    // Check if second range is wholly within first range
+    if (checkIn >= booking.checkIn && checkOut <= booking.checkOut) {
+      return false
+    }
+
+    // Check if ranges overlap
+    if (booking.checkIn < checkIn && booking.checkOut > checkIn) {
+      return false
+    }
+
+    if (checkIn < booking.checkIn && checkOut > booking.checkIn) {
+      return false
+    }
+
+    // If ranges do not overlap or are not wholly within each other, there is no overlap
+    return true
+  })
+}
+
 export const addNewRoom = async (room) => {
   try {
     const docRef = await addDoc(collection(db, "rooms"), room);
@@ -31,21 +68,42 @@ export const addNewRoom = async (room) => {
   }
 };
 
+
+
 export const getAllRooms = async () => {
   const querySnapshot = await getDocs(collection(db, "rooms"));
-  return querySnapshot;
+  return mapToRoomsArray(querySnapshot.docs);
 };
 
 // export const getRoom = async (roomId) => {
 //   const docRef = await getDoc(collection(db, "rooms", roomId));
 // }
 
-export const checkAvailability = (roomType, checkInDate, checkOutDate) => {
-  
+export const checkSimilarRoomsAvailability = (roomType, checkInDate, checkOutDate) => {
+  const roomsRef = collection(db, ROOMS);
+  const collectionRef = collection(roomsRef, "theBookings");
+  if (!collectionRef) return true;
+}
+
+export const checkRoomAvailability = async (roomID, checkInDate, checkOutDate) => {
+  let isRoomAvailableForBooking = false;
+  await getRoomBookings(roomID, checkInDate, checkOutDate).then((roomBookings) => {
+    isRoomAvailableForBooking = isRoomAvailable(roomBookings, checkInDate, checkOutDate);
+  }).catch((err) => {
+    console.error(err.message);
+  });
+  return isRoomAvailableForBooking;
+}
+
+export const getRoomBookings = async (roomId) => {
+  const docRef = doc(db, ROOMS, roomId);
+  const collectionRef = collection(docRef, "theBookings");
+  const querySnapshot = await getDocs(collectionRef)
+  return mapToRoomsArray(querySnapshot.docs);
 }
 
 export const addBooking = async (roomId, bookingObject) => {
-  const docRef =  doc(db, "rooms", roomId);
+  const docRef = doc(db, ROOMS, roomId);
   const collectionRef = collection(docRef, "theBookings");
   await addDoc(collectionRef, bookingObject);
 }
@@ -97,21 +155,17 @@ export const uploadRoomImages = async (roomNumber, images) => {
     // console.log(index)
     const imageRef = ref(storage, `/rooms/room${roomNumber}/${index}`);
     await uploadBytes(imageRef, image)
-      .then((snapshot) => {
+      .then(async (snapshot) => {
         // console.log(image.name, "upload success");
-        getDownloadURL(snapshot.ref).then((url) => {
+        await getDownloadURL(snapshot.ref).then((url) => {
           //   console.log(url);
           imagesUrls.push(url);
-    console.log(index)
-
         });
       })
       .catch((err) => {
         console.log(err.message);
       });
   }
-  console.log('done')
-  console.log(imagesUrls);
   return imagesUrls;
 };
 

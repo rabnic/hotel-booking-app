@@ -26,13 +26,9 @@ function Rooms() {
 
   const handleGetAllRooms = () => {
     getAllRooms()
-      .then((snapshot) => {
+      .then((roomsSnapshot) => {
         console.log("get all called");
-        setRoomsDB(
-          snapshot.docs.map((doc) => {
-            return { id: doc.id, ...doc.data() };
-          })
-        );
+        setRoomsDB(roomsSnapshot);
         setIsLoading(false);
       })
       .catch((err) => {

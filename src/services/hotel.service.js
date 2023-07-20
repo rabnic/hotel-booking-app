@@ -2,6 +2,7 @@ import {
   collection,
   addDoc,
   setDoc,
+  updateDoc,
   deleteDoc,
   getDoc,
   getDocs,
@@ -29,73 +30,45 @@ const mapToRoomsArray = (data) => {
 };
 
 const isRoomAvailable = (bookings, checkIn, checkOut) => {
+  let isAvailable = true;
   if (bookings.length === 0) {
     return true;
   }
 
-  bookings.forEach((booking) => {
-    // Check if first range is wholly within second range
-    if (booking.checkIn >= checkIn && booking.checkOut <= checkOut) {
-      return false;
+  bookings.some((booking) => {
+    console.log(booking.checkIn === checkIn, booking.checkOut === checkOut);
+    console.log(booking.checkIn, checkIn, booking.checkOut, checkOut);
+    if (
+      booking.checkIn === checkIn ||
+      booking.checkOut === checkOut ||
+      booking.checkIn === checkOut ||
+      booking.checkOut === checkIn
+    ) {
+      console.log("failed in zero if");
+      isAvailable = false;
+      return true;
     }
-
-    // Check if second range is wholly within first range
-    if (checkIn >= booking.checkIn && checkOut <= booking.checkOut) {
-      return false;
+    if (
+      (booking.checkIn < checkIn && booking.checkOut > checkIn) ||
+      (booking.checkIn < checkOut && booking.checkOut > checkOut)
+    ) {
+      console.log("failed in first if");
+      isAvailable = false;
+      return true;
     }
-
-    // Check if ranges overlap
-    if (booking.checkIn < checkIn && booking.checkOut > checkIn) {
-      return false;
+    if (
+      (booking.checkIn > checkIn && booking.checkOut < checkOut) ||
+      (booking.checkIn < checkIn && booking.checkOut > checkOut)
+    ) {
+      console.log("failed in second if");
+      isAvailable = false;
+      return true;
     }
-
-    if (checkIn < booking.checkIn && checkOut > booking.checkIn) {
-      return false;
-    }
-
-    // If ranges do not overlap or are not wholly within each other, there is no overlap
-    return true;
+    return false;
   });
+
+  return isAvailable;
 };
-
-//
-
-function checkRangeOverlap(start1, end1, start2, end2) {
-  if (start1 <= end2 && end1 >= start2) {
-    return "Overlaps";
-  } else if (start1 >= start2 && end1 <= end2) {
-    return "Within";
-  } else {
-    return "No Overlap";
-  }
-}
-
-// Test cases
-const testCases = [
-  [1, 5, 6, 10], // No Overlap
-  [1, 10, 5, 15], // Overlaps
-  [10, 20, 5, 25], // Overlaps
-  [30, 40, 10, 25], // No Overlap
-  [10, 20, 5, 15], // Within
-  [5, 15, 10, 20], // Within
-  [1, 5, 5, 10], // Overlaps
-  [1, 10, 10, 15], // Overlaps
-  [5, 15, 1, 5], // Overlaps
-  [10, 20, 20, 30], // Overlaps
-];
-
-testCases.forEach(([start1, end1, start2, end2]) => {
-  console.log(
-    `Range [${start1}, ${end1}] and [${start2}, ${end2}]: ${checkRangeOverlap(
-      start1,
-      end1,
-      start2,
-      end2
-    )}`
-  );
-});
-
-//
 
 export const addNewRoom = async (room) => {
   try {
@@ -115,10 +88,45 @@ export const getAllRooms = async () => {
 //   const docRef = await getDoc(collection(db, "rooms", roomId));
 // }
 
-export const checkAvailability = (roomType, checkInDate, checkOutDate) => {};
+export const checkSimilarRoomsAvailability = (
+  roomType,
+  checkInDate,
+  checkOutDate
+) => {
+  const roomsRef = collection(db, ROOMS);
+  const collectionRef = collection(roomsRef, "theBookings");
+  if (!collectionRef) return true;
+};
+
+export const checkRoomAvailability = async (
+  roomID,
+  checkInDate,
+  checkOutDate
+) => {
+  let isRoomAvailableForBooking = false;
+  await getRoomBookings(roomID, checkInDate, checkOutDate)
+    .then((roomBookings) => {
+      isRoomAvailableForBooking = isRoomAvailable(
+        roomBookings,
+        checkInDate,
+        checkOutDate
+      );
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+  return isRoomAvailableForBooking;
+};
+
+export const getRoomBookings = async (roomId) => {
+  const docRef = doc(db, ROOMS, roomId);
+  const collectionRef = collection(docRef, "theBookings");
+  const querySnapshot = await getDocs(collectionRef);
+  return mapToRoomsArray(querySnapshot.docs);
+};
 
 export const addBooking = async (roomId, bookingObject) => {
-  const docRef = doc(db, "rooms", roomId);
+  const docRef = doc(db, ROOMS, roomId);
   const collectionRef = collection(docRef, "theBookings");
   await addDoc(collectionRef, bookingObject);
 };
@@ -167,6 +175,7 @@ export const uploadRoomImages = async (roomNumber, images) => {
 
   // Upload 1 image at a time
   for (let [index, image] of images.entries()) {
+    // console.log(index)
     const imageRef = ref(storage, `/rooms/room${roomNumber}/${index}`);
     await uploadBytes(imageRef, image)
       .then(async (snapshot) => {

@@ -88,15 +88,38 @@ export const getAllRooms = async () => {
 //   const docRef = await getDoc(collection(db, "rooms", roomId));
 // }
 
-export const checkSimilarRoomsAvailability = (
+export const checkSimilarRoomsAvailability = async (
   roomType,
   checkInDate,
-  checkOutDate
+  checkOutDate,
+  initialRoomCheckedId
 ) => {
-  const roomsRef = collection(db, ROOMS);
-  const collectionRef = collection(roomsRef, "theBookings");
-  if (!collectionRef) return true;
+  const snapshotRoomsArray = await getRoomsByType(roomType);
+  const similarRooms = await Promise.all(
+    snapshotRoomsArray.map(async (room) => {
+      const isCurrentRoomAvailable = await checkRoomAvailability(room.id, checkInDate, checkOutDate);
+      console.log(isCurrentRoomAvailable);
+      return isCurrentRoomAvailable ? room : null;
+    })
+  ).then((filteredRooms) => filteredRooms.filter((room) => room));
+
+  return similarRooms;
+
+  // let similarRooms = []
+  // await getRoomsByType(roomType).then((snapshotRoomsArray) => {
+  //   // const similarRoomsOnly = snapshotRoomsArray.filter((snapshot
+  //   similarRooms = snapshotRoomsArray.filter( async(room) => {
+  //     const isCurrentRoomAvailable = await checkRoomAvailability(room.id, checkInDate, checkOutDate)
+  //     console.log(isCurrentRoomAvailable);
+  //     return isCurrentRoomAvailable;
+  //   });
+  // }).catch((err) => {
+  //   console.log(err.message)
+  // });
+
+  // return similarRooms;
 };
+
 
 export const checkRoomAvailability = async (
   roomID,
@@ -135,7 +158,7 @@ export const getRoomsByType = async (roomType) => {
   const roomsRef = collection(db, ROOMS);
   const byTypeQuery = query(roomsRef, where("type", "==", roomType));
   const querySnapshot = await getDocs(byTypeQuery);
-  return querySnapshot;
+  return mapToRoomsArray(querySnapshot.docs);
 };
 
 export const getRoomsByPriceRange = async (priceStart, priceEnd) => {
@@ -222,17 +245,6 @@ export const createGuestAuth = async (email, password) => {
 
 export const login = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password);
-  // .then((userCredential) => {
-  //   // Signed in
-  //   const user = userCredential.user;
-  //   console.log(user);
-  //   // ...
-  // })
-  // .catch((error) => {
-  //   const errorCode = error.code;
-  //   const errorMessage = error.message;
-  //   console.log(errorCode, errorMessage);
-  // });
 };
 
 export const getUser = async (email) => {

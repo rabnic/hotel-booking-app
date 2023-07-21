@@ -1,23 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
+import Alert from "../../components/Alert";
+import BookRoomCard from "../../components/guests/BookRoomCard";
+import Loader from "../../components/Loader";
+
 import {
   addBooking,
   getRoomBookings,
   checkRoomAvailability,
+  checkSimilarRoomsAvailability
 } from "../../services/hotel.service";
 import { getTodayAndTomorrowDate } from "../../utils/utils";
 // import { Timestamp } from 'firebase/firestore'
 
 const Booking = () => {
   const roomState = useLocation().state;
+  const navigate = useNavigate();
   console.log(roomState);
 
   const [today, tomorrow] = getTodayAndTomorrowDate();
 
-  const [roomUnderCheck, setRoomUnderCheck] = useState(roomState);
+  const [roomUnderCheck, setRoomUnderCheck] = useState(roomState || null);
   const [checkInDate, setCheckInDate] = useState(today);
   const [checkOutDate, setCheckOutDate] = useState(tomorrow);
+  const [isRoomAvailable, setIsRoomAvailable] = useState(false);
+  const [isSimilarRoomAvailable, setIsSimilarRoomAvailable] = useState(false);
+  const [similarRooms, setSimilarRooms] = useState([]);
+  const [isShowAlert, setIsShowAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState({ message: '', type: '' })
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!roomUnderCheck) {
+      navigate('/rooms');
+    }
+  })
 
   const checkInTime = "13:00:00";
   const checkOutTime = "10:00:00";
@@ -41,7 +60,8 @@ const Booking = () => {
       });
   };
 
-  const handleAddBooking = (e) => {
+  const handleCheckRoomAvailability = (e) => {
+    // setIsLoading(true)
     checkRoomAvailability(
       roomUnderCheck.id,
       booking.checkIn,
@@ -49,15 +69,35 @@ const Booking = () => {
     ).then((isAvailable) => {
       if (isAvailable) {
         console.log("Room is available");
-        addBooking(roomUnderCheck.id, booking);
+        setIsShowAlert(false);
+        setAlertStatus({ message: '', type: '' })
+        setIsRoomAvailable(true)
+        // addBooking(roomUnderCheck.id, booking);
       } else {
-        alert("Room not available");
+        // alert("Room not available");
+        setIsShowAlert(true);
+        setAlertStatus({ message: 'Room is not available', type: 'danger' })
+        setTimeout(() => { 
+          if (window.confirm('Do you want to check availability for similar rooms?')) {
+            checkSimilarRoomsAvailability(roomUnderCheck.type, booking.checkIn, booking.checkOut)
+              .then((snapshot) => {
+                console.log(snapshot)
+                setSimilarRooms(snapshot)
+                if(snapshot) {
+                  setIsShowAlert(false);
+                }
+              })
+              .catch((err) => {
+                console.log(err.message);
+              })
+            console.log('checking similar rooms availability');
+          }
+        }, 1000); 
       }
     });
-    // console.log(roomUnderCheck.id)
-    // console.log(new Date(checkInDate), checkOutDate);
-    // console.log("below dates");
+    setIsLoading(false);
   };
+
   return (
     <main className="mt-20 py-4 px-4 lg:w-3/4 mx-auto">
       <section className="bg-white dark:bg-gray-900">
@@ -119,7 +159,7 @@ const Booking = () => {
               </label>
               <input
                 name="end"
-                onClick={handleGetRoomBookings}
+                onClick={(e) => {setIsLoading(true);handleCheckRoomAvailability(e);}}
                 type="button"
                 id="check-out"
                 className="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -130,12 +170,29 @@ const Booking = () => {
           <button
             className="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5 "
             type="button"
-            onClick={handleAddBooking}
+            onClick={handleCheckRoomAvailability}
           >
             Add Booking
           </button>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
+        <section className="flex justify-center">
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              {isShowAlert && <Alert status={alertStatus} />}
+
+              {isRoomAvailable && <BookRoomCard room={roomUnderCheck} booking />}
+
+              {similarRooms && similarRooms.map(room => {
+                return <BookRoomCard room={room} booking />
+              })}
+            </>
+          )}
+
+        </section>
+
       </section>
     </main>
   );

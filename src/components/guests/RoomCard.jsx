@@ -14,8 +14,8 @@ function RoomCard({ room }) {
   };
   return (
     <>
-      <div className="cursor-pointer rounded-xl bg-white p-3 shadow-lg hover:shadow-x2 hover:shadow-orange-800">
-        <div className="relative flex items-end overflow-hidden rounded-xl">
+      <div className="cursor-pointer flex flex-col rounded-xl bg-white p-3 shadow-lg hover:shadow-x2 hover:shadow-orange-800">
+        <div className="relative max-h-40 flex items-end overflow-hidden rounded-xl">
           <img src={room.images[0]} alt="Room main pic" className="w-full" />
 
           <div className="absolute bottom-3 left-3 inline-flex items-center rounded-lg bg-white p-2 shadow-md">
@@ -32,14 +32,14 @@ function RoomCard({ room }) {
           </div>
         </div>
 
-        <div className="mt-1 p-2">
+        <div className="mt-1 p-2 flex flex-col max-h-50 border border-green-500 justify-between gap-2 relative">
           <h2 className="text-slate-800 font-semibold">{`${room.type} Room`}</h2>
           <p className="mt-1 text-sm text-slate-500">2 Bedroom. 4 Guests</p>
           <p className="mt-1 text-sm text-slate-500">
             {roomDescription[room.type]}
           </p>
 
-          <div className="mt-3 flex items-end justify-between">
+          <div className="mt-auto border relative bottom-0 flex items-center justify-between">
             <p>
               <span className="text-lg font-bold text-orange-500">{`R${room.price}`}</span>
               <span className="text-sm text-slate-400">/night</span>

@@ -20,9 +20,9 @@ const Room = () => {
     Double:
       "Indulge in the spacious elegance of our double rooms. Perfect for couples or those seeking extra space, these rooms offer a plush king-size or twin beds, a luxurious ensuite bathroom, and a charming sitting area where you can unwind and enjoy your time together.",
     Family:
-      "Create lasting memories with your loved ones in our family rooms. These well-designed spaces provide ample room for the whole family, featuring comfortable bedding options, a private ensuite bathroom, and thoughtful amenities to ensure everyone's comfort. Relax and enjoy quality time together in the comfort of our family-friendly environment.",
+      "Create lasting memories with your loved ones in our family rooms. These well-designed spaces provide ample room for the whole family, featuring comfortable bedding options, a private ensuite bathroom, and thoughtful amenities to ensure everyone's comfort.",
     Presidential:
-      "Experience the pinnacle of luxury in our exquisite presidential suite. This grand and opulent retreat offers unparalleled elegance and comfort. Enjoy the lavish king-size bed, a stunning ensuite bathroom with deluxe amenities, a fully equipped kitchen for your culinary delights, and a spacious lounge area to entertain guests. The suite's private balcony showcases breathtaking views, providing a truly unforgettable stay.",
+      "Experience the pinnacle of luxury in our exquisite presidential suite. This grand and opulent retreat offers unparalleled elegance and comfort. Enjoy the lavish king-size bed, a stunning ensuite bathroom with deluxe amenities, and a fully equipped kitchen.",
   };
 
   const product = {

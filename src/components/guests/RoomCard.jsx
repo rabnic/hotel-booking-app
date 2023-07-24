@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function RoomCard({ room }) {
+  console.log(room)
   const roomDescription = {
     Single:
       "Experience comfort and convenience in our stylish single rooms. Designed with the modern traveler in mind, these cozy retreats feature a comfortable bed, a well-appointed ensuite bathroom, and all the amenities you need for a relaxing stay.",

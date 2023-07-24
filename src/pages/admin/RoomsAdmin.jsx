@@ -11,12 +11,8 @@ function RoomsAdmin() {
 
   useEffect(() => {
     getAllRooms()
-      .then((snapshot) => {
-        setRoomsDB(
-          snapshot.docs.map((doc) => {
-            return { id: doc.id, ...doc.data() };
-          })
-        );
+      .then((snapshotRoomsArray) => {
+        setRoomsDB(snapshotRoomsArray)
         setIsLoading(false);
       })
       .catch((err) => {
@@ -75,7 +71,7 @@ function RoomsAdmin() {
             </p>
           </div>
           <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
-            <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
               <div className="hidden flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"></div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -137,7 +133,7 @@ function RoomsAdmin() {
                             <td className="px-4 py-3">{room.price}</td>
                             <td className="px-4 py-3">{room.maxGuests}</td>
                             <td className="px-4 py-3">None</td>
-                            <td className="px-4 py-3 flex items-center justify-end relative">
+                            <td className="px-4 py-3 flex items-center justify-end absolute">
                               <button
                                 onClick={() => {
                                   toggleDropdown(room.id);

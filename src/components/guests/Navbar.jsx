@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useAuthContext } from "../../App";
 import { Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+
+const handleLogout = () => {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      console.log("Sign-out successful.");
+    })
+    .catch((error) => {
+      // An error happened.
+    });
+};
 
 function Navbar() {
+  const currentUser = useAuthContext();
+  console.log(currentUser);
   return (
     <nav className="bg-slate-900 bg-opacity-95 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 dark:border-gray-600 text-slate-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -27,7 +42,7 @@ function Navbar() {
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded="true"
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -85,14 +100,26 @@ function Navbar() {
                 Contact
               </Link>
             </li>
-            <li>
-              <Link
-                to="login"
-                className="block py-2 pl-3 pr-4 border-b-2 border-orange-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Login
-              </Link>
-            </li>
+            {
+              currentUser ?
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="block py-2 pl-3 pr-4 border-b-2 border-red-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Logout
+                  </button>
+                </li>
+                :
+                <li>
+                  <Link
+                    to="login"
+                    className="block py-2 pl-3 pr-4 border-b-2 border-green-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >
+                    Login
+                  </Link>
+                </li>
+            }
           </ul>
         </div>
       </div>

@@ -24,6 +24,7 @@ const Booking = () => {
   const [roomUnderCheck, setRoomUnderCheck] = useState(roomState || null);
   const [checkInDate, setCheckInDate] = useState(today);
   const [checkOutDate, setCheckOutDate] = useState(tomorrow);
+  const [numberOfGuests, setNumberOfGuests] = useState(1)
   const [isRoomAvailable, setIsRoomAvailable] = useState(false);
   const [isSimilarRoomAvailable, setIsSimilarRoomAvailable] = useState(false);
   const [similarRooms, setSimilarRooms] = useState([]);
@@ -116,7 +117,7 @@ const Booking = () => {
             Check availability for a room and book your great stay.
           </p>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-          <div date-rangepicker={"true"} className="flex items-center">
+          <div date-rangepicker={"true"} className="flex items-center justify-between">
             <div className="relative">
               <label
                 htmlFor="first_name"
@@ -156,8 +157,29 @@ const Booking = () => {
                 }}
               />
             </div>
-            <span className="mx-4"></span>
-            <div className="relative">
+            <span className="mx-4 text-gray-500"></span>
+            <div className="relative" htmlFor="check-in">
+              <label
+                htmlFor="check-in"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Number of Guests
+              </label>
+              <input
+                name="number-of-guests"
+                type="number"
+                min={1}
+                max={6}
+                id="number-of-guests"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={numberOfGuests}
+                onChange={(e) => {
+                  setNumberOfGuests(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="relative">
               <label
                 htmlFor="check-out"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white invisible"
@@ -176,7 +198,6 @@ const Booking = () => {
                 value="Check Availability"
               />
             </div>
-          </div>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
         <section className="flex justify-center">
@@ -203,3 +224,4 @@ const Booking = () => {
 };
 
 export default Booking;
+

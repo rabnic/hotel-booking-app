@@ -1,6 +1,13 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { useLocation } from "react-router-dom";
+
 
 function BookingConfirmation() {
+  const location = useLocation();
+  const [roomToBeBooked, setRoomToBooked] = useState(location.state)
+  useEffect(() => {
+    console.log(location.state);
+  })
   return (
     <main className="mt-20 py-4 px-4 lg:w-3/4 mx-auto">
       <section className="bg-white dark:bg-gray-900">
@@ -15,7 +22,7 @@ function BookingConfirmation() {
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
         <section className="flex justify-center">
-
+          
         </section>
 
       </section>

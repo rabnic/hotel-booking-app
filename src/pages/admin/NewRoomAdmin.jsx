@@ -12,6 +12,25 @@ const NewRoomAdmin = () => {
   const [amenities, setAmenities] = useState([]);
   const [bookings, setBookings] = useState({});
   const [roomImages, setRoomImages] = useState([]);
+  const [amenitiesCheckboxes, setAmenitiesCheckboxes] = useState({
+    featherBedding: false,
+    tv: false,
+    wifi: false,
+    toiletries: false,
+    bathrobes: false,
+    barFridge: false,
+    hairdryer: false,
+    breakfast: false,
+    showerBathtub: false,
+  });
+
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setAmenitiesCheckboxes((prevCheckboxes) => ({
+      ...prevCheckboxes,
+      [name]: checked,
+    }));
+  };
 
   const handleAddNewRoom = (e) => {
     e.preventDefault();
@@ -194,13 +213,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="vue-checkbox-list"
+                          id="feather-bedding-checkbox"
                           type="checkbox"
-                          value=""
+                          name="featherBedding"
+                          value="Feather Bedding"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="vue-checkbox-list"
+                          htmlFor="feather-bedding-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Feather Bedding
@@ -210,13 +230,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="react-checkbox-list"
+                          id="tv-checkbox"
                           type="checkbox"
-                          value=""
+                          name="tv"
+                          value="TV"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="react-checkbox-list"
+                          htmlFor="tv-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           TV
@@ -227,13 +248,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="wifi-checkbox"
                           type="checkbox"
-                          value=""
+                          name="wifi"
+                          value="Wifi"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="wifi-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           WiFi
@@ -243,13 +265,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="toiletries-checkbox"
                           type="checkbox"
-                          value=""
+                          name="toiletries"
+                          value="Toiletries"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="toiletries-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Toiletries
@@ -259,13 +282,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="bathrobes-checkbox"
                           type="checkbox"
-                          value=""
+                          name="bathrobes"
+                          value="Bathrobes"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="bathrobes-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Bathrobes
@@ -275,13 +299,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="bar-fridge-checkbox"
                           type="checkbox"
-                          value=""
+                          name="barFridge"
+                          value="Bar Fridge"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="bar-fridge-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Bar Fridge
@@ -291,13 +316,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="hairdryer-checkbox"
                           type="checkbox"
-                          value=""
+                          name="hairdryer"
+                          value="Hairdryer"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="hairdryer-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Hairdryer
@@ -307,13 +333,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="breakfast-checkbox"
                           type="checkbox"
-                          value=""
+                          name="breakfast"
+                          value="Complimentary Breakfast"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="breakfast-checkbox"
                           className="text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Complimentary Breakfast
@@ -323,13 +350,14 @@ const NewRoomAdmin = () => {
                     <li className="w-full dark:border-gray-600">
                       <div className="flex items-center pl-3">
                         <input
-                          id="laravel-checkbox-list"
+                          id="shower-bathtub-checkbox"
                           type="checkbox"
-                          value=""
+                          name="showerBathtub"
+                          value="Shower and bathtub"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
-                          htmlFor="laravel-checkbox-list"
+                          htmlFor="shower-bathtub-checkbox"
                           className="ext-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         >
                           Shower and bathtub

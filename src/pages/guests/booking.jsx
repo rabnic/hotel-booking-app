@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 import Alert from "../../components/Alert";
 import BookRoomCard from "../../components/guests/BookRoomCard";
 import Loader from "../../components/Loader";
@@ -10,7 +9,7 @@ import {
   addBooking,
   getRoomBookings,
   checkRoomAvailability,
-  checkSimilarRoomsAvailability
+  checkSimilarRoomsAvailability,
 } from "../../services/hotel.service";
 import { getTodayAndTomorrowDate } from "../../utils/utils";
 // import { Timestamp } from 'firebase/firestore'
@@ -29,14 +28,14 @@ const Booking = () => {
   const [isSimilarRoomAvailable, setIsSimilarRoomAvailable] = useState(false);
   const [similarRooms, setSimilarRooms] = useState([]);
   const [isShowAlert, setIsShowAlert] = useState(false);
-  const [alertStatus, setAlertStatus] = useState({ message: '', type: '' })
+  const [alertStatus, setAlertStatus] = useState({ message: "", type: "" });
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!roomUnderCheck) {
-      navigate('/rooms');
+      navigate("/rooms");
     }
-  })
+  });
 
   const checkInTime = "13:00:00";
   const checkOutTime = "10:00:00";
@@ -70,29 +69,37 @@ const Booking = () => {
       if (isAvailable) {
         console.log("Room is available");
         setIsShowAlert(false);
-        setAlertStatus({ message: '', type: '' })
-        setIsRoomAvailable(true)
+        setAlertStatus({ message: "", type: "" });
+        setIsRoomAvailable(true);
         // addBooking(roomUnderCheck.id, booking);
       } else {
         // alert("Room not available");
         setIsShowAlert(true);
-        setAlertStatus({ message: 'Room is not available', type: 'danger' })
-        setTimeout(() => { 
-          if (window.confirm('Do you want to check availability for similar rooms?')) {
-            checkSimilarRoomsAvailability(roomUnderCheck.type, booking.checkIn, booking.checkOut)
+        setAlertStatus({ message: "Room is not available", type: "danger" });
+        setTimeout(() => {
+          if (
+            window.confirm(
+              "Do you want to check availability for similar rooms?"
+            )
+          ) {
+            checkSimilarRoomsAvailability(
+              roomUnderCheck.type,
+              booking.checkIn,
+              booking.checkOut
+            )
               .then((snapshot) => {
-                console.log(snapshot)
-                setSimilarRooms(snapshot)
-                if(snapshot) {
+                console.log(snapshot);
+                setSimilarRooms(snapshot);
+                if (snapshot) {
                   setIsShowAlert(false);
                 }
               })
               .catch((err) => {
                 console.log(err.message);
-              })
-            console.log('checking similar rooms availability');
+              });
+            console.log("checking similar rooms availability");
           }
-        }, 1000); 
+        }, 1000);
       }
     });
     setIsLoading(false);
@@ -159,7 +166,10 @@ const Booking = () => {
               </label>
               <input
                 name="end"
-                onClick={(e) => {setIsLoading(true);handleCheckRoomAvailability(e);}}
+                onClick={(e) => {
+                  setIsLoading(true);
+                  handleCheckRoomAvailability(e);
+                }}
                 type="button"
                 id="check-out"
                 className="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -167,13 +177,6 @@ const Booking = () => {
               />
             </div>
           </div>
-          <button
-            className="bg-orange-500 border font-semibold text-slate-800 text-sm text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-10 p-2.5 "
-            type="button"
-            onClick={handleCheckRoomAvailability}
-          >
-            Add Booking
-          </button>
           <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         </div>
         <section className="flex justify-center">
@@ -183,16 +186,17 @@ const Booking = () => {
             <>
               {isShowAlert && <Alert status={alertStatus} />}
 
-              {isRoomAvailable && <BookRoomCard room={roomUnderCheck} booking />}
+              {isRoomAvailable && (
+                <BookRoomCard room={roomUnderCheck} booking />
+              )}
 
-              {similarRooms && similarRooms.map(room => {
-                return <BookRoomCard room={room} booking />
-              })}
+              {similarRooms &&
+                similarRooms.map((room) => {
+                  return <BookRoomCard room={room} booking />;
+                })}
             </>
           )}
-
         </section>
-
       </section>
     </main>
   );

@@ -13,11 +13,11 @@ const AuthContext = createContext();
 
 const useAuthContext = () => {
   return useContext(AuthContext);
-}
+};
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
-  
+
   currentUser && console.log(currentUser);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function App() {
     });
     return () => unsubscribe();
   }, []);
-  
+
   currentUser && console.log(currentUser);
 
   if (currentUser && currentUser.role === "admin") {
@@ -48,14 +48,14 @@ function App() {
       <AuthContext.Provider value={currentUser}>
         <AppAdmin user={currentUser} />;
       </AuthContext.Provider>
-    )
+    );
   }
 
   return (
     <AuthContext.Provider value={currentUser}>
-      <AppGuests />;
+      <AppGuests />
     </AuthContext.Provider>
-  )
+  );
 }
-export {useAuthContext};
+export { useAuthContext };
 export default App;

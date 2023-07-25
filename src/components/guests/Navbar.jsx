@@ -30,19 +30,17 @@ function Navbar() {
           >
             Book Now
           </Link>
-          {/* <button
-            type="button"
-            className="text-white bg-transparent mx-2 hover:drop-shadow border border-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0"
-          >
-            Login
-          </button> */}
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded="true"
-            onClick={() => { }}
+            onClick={() => {
+              document
+                .getElementById("navbar-sticky")
+                .classList.toggle("hidden");
+            }}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -70,7 +68,7 @@ function Navbar() {
             <li>
               <Link
                 to="/"
-                className="block py-2 pl-3 pr-4 hover:font-semibold text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                className="block py-2 pl-3 pr-4 hover:font-semibold text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:border dark:border-gray-700"
                 aria-current="page"
               >
                 Home
@@ -100,26 +98,25 @@ function Navbar() {
                 Contact
               </Link>
             </li>
-            {
-              currentUser ?
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    className="block py-2 pl-3 pr-4 border-b-2 border-red-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  >
-                    Logout
-                  </button>
-                </li>
-                :
-                <li>
-                  <Link
-                    to="login"
-                    className="block py-2 pl-3 pr-4 border-b-2 border-green-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  >
-                    Login
-                  </Link>
-                </li>
-            }
+            {currentUser ? (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="block py-2 pl-3 pr-4 border-b-2 border-red-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <li>
+                <Link
+                  to="login"
+                  className="block py-2 pl-3 pr-4 border-b-2 border-green-900 hover:font-semibold md:hover:bg-transparent text-orange-200 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

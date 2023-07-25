@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   createGuestAuth,
@@ -7,23 +7,36 @@ import {
 } from "../../services/hotel.service";
 
 function Register() {
+  const location = useLocation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
 
+  console.log(location.state);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   const handleRegisterGuest = (e) => {
     e.preventDefault();
     createGuestAuth(email, password)
-      .then(() => {
-        registerNewGuest({ name, email, phone, booking: "", role: "guest" });
+      .then(async () => {
+        await registerNewGuest({
+          name,
+          email,
+          phone,
+          booking: "",
+          role: "guest",
+        });
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
   return (
-    <main className="mt-24 py-4 px-4 lg:w-3/4 mx-auto">
+    <main className="mt-24 py-4 px-4 lg:w-3/4 mx-auto" id="#">
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">

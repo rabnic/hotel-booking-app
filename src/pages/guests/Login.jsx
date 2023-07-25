@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 // import { getAuth } from "firebase/auth";
 
 import Alert from "../../components/Alert";
@@ -7,11 +7,19 @@ import Alert from "../../components/Alert";
 import { getUser, login } from "../../services/hotel.service";
 
 function Login() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowAlert, setIsShowAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState({});
-  const navigate = useNavigate();
+
+  console.log(location.state);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location, navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -22,9 +30,11 @@ function Login() {
             if (userDoc) {
               setIsShowAlert(true);
               setAlertStatus({ type: "success", message: "Login successful" });
-              console.log(userDoc);
+              if (location.state && location.state.from === "confirmation") {
+                navigate("/booking/confirmation");
+              }
               const goTo = userDoc.role === "admin" ? "/admin" : "/";
-              navigate(goTo);
+              // navigate(goTo);
             } else {
               setIsShowAlert(true);
               setAlertStatus({

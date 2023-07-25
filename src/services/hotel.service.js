@@ -36,8 +36,8 @@ const isRoomAvailable = (bookings, checkIn, checkOut) => {
   }
 
   bookings.some((booking) => {
-    console.log(booking.checkIn === checkIn, booking.checkOut === checkOut);
-    console.log(booking.checkIn, checkIn, booking.checkOut, checkOut);
+    // console.log(booking.checkIn === checkIn, booking.checkOut === checkOut);
+    // console.log(booking.checkIn, checkIn, booking.checkOut, checkOut);
     if (
       booking.checkIn === checkIn ||
       booking.checkOut === checkOut ||
@@ -69,6 +69,8 @@ const isRoomAvailable = (bookings, checkIn, checkOut) => {
 
   return isAvailable;
 };
+
+
 
 export const addNewRoom = async (room) => {
   try {

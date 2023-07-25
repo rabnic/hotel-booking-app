@@ -7,6 +7,8 @@ import "./App.css";
 
 import AppAdmin from "./AppAdmin";
 import AppGuests from "./AppGuests";
+import FullScreenLoader from "./components/FullScreenLoader";
+import FullTransparentLoader from "./components/FullTransparentLoader";
 // import FullScreenLoader from "./compoments/FullScreenLoader";
 
 const AuthContext = createContext();
@@ -42,6 +44,14 @@ function App() {
   }, []);
 
   currentUser && console.log(currentUser);
+
+  if (typeof currentUser === 'undefined') {
+    return (
+      <>
+      <FullTransparentLoader />
+      </>
+    )
+  }
 
   if (currentUser && currentUser.role === "admin") {
     return (

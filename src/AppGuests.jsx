@@ -17,6 +17,7 @@ import Home from "./pages/guests/home";
 import Booking from "./pages/guests/booking";
 import Confirmation from "./pages/guests/confirmation";
 import Contact from "./pages/guests/contact";
+import Facilites from "./pages/guests/facilities";
 
 function AppGuests() {
   // testAdd();
@@ -36,6 +37,7 @@ function AppGuests() {
         <Route path="booking" element={<Booking />} />
         <Route path="booking/confirmation" element={<Confirmation />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="facilities" element={<Facilites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

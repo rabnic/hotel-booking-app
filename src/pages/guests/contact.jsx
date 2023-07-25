@@ -3,16 +3,28 @@ import React from "react";
 const Contact = () => {
   return (
     <main className="mt-24 py-4 px-4 lg:w-3/4 mx-auto">
-      <section className="bg-white dark:bg-gray-900">
-        <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
-            Contact Us
-          </h2>
-          <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
-            Got a technical issue? Want to send feedback about a beta feature?
-            Need details about our Business plan? Let us know.
-          </p>
-          <form action="#" className="space-y-8">
+
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">
+        Contact Us
+      </h1>
+      <p className="mb-6 text-lg font-normal text-gray-600 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
+        Got a technical issue? Want to send feedback about a beta feature?
+        Need details about our Business plan? Let us know.
+      </p>
+
+
+
+
+      {/*
+            <main className="mt-24 py-4 px-4 lg:w-3/4 mx-auto">
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white text-center">
+        Exquisite rooms at GREAT-STAY
+      </h1>
+      <p className="mb-6 text-lg font-normal text-gray-600 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 text-center">
+            */}
+      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-auto">
+        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <form action="#" className="space-y-8 mx-auto">
             <div>
               <label
                 htmlFor="email"
@@ -64,8 +76,8 @@ const Contact = () => {
               Send message
             </button>
           </form>
-        </div>
-      </section>
+        </div></div>
+
     </main>
   );
 };

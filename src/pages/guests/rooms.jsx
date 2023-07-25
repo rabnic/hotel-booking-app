@@ -10,8 +10,8 @@ import {
 function Rooms() {
   const [roomsDB, setRoomsDB] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedRoomType, setSelectedRoomType] = useState("");
-  const [selectedRoomPriceRange, setSelectedRoomPriceRange] = useState("");
+  const [selectedRoomType, setSelectedRoomType] = useState();
+  const [selectedRoomPriceRange, setSelectedRoomPriceRange] = useState();
 
   const priceRanges = {
     p1: [500, 999],
@@ -25,6 +25,7 @@ function Rooms() {
   }, []);
 
   const handleGetAllRooms = () => {
+    console.log("handleGetAllRooms");
     getAllRooms()
       .then((roomsSnapshot) => {
         console.log("get all called");

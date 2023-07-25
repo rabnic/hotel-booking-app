@@ -17,7 +17,7 @@ function RoomCard({ room }) {
     <>
       <div className="cursor-pointer flex flex-col rounded-xl bg-white p-3 shadow-lg hover:shadow-x2 hover:shadow-orange-800">
         <div className="relative h-40 flex items-end overflow-hidden rounded-xl">
-          <img src={room.images[0]} alt="Room main pic" className="w-full" />
+          <img src={room.images[0]} alt="Room main pic" className="w-full" loading="lazy" />
 
           <div className="absolute bottom-3 left-3 inline-flex items-center rounded-lg bg-white p-2 shadow-md">
             <svg

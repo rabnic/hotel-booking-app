@@ -13,35 +13,37 @@ const NewRoomAdmin = () => {
   const [bookings, setBookings] = useState({});
   const [roomImages, setRoomImages] = useState([]);
   const [amenitiesCheckboxes, setAmenitiesCheckboxes] = useState({
-    featherBedding: false,
-    tv: false,
-    wifi: false,
-    toiletries: false,
-    bathrobes: false,
-    barFridge: false,
-    hairdryer: false,
-    breakfast: false,
-    showerBathtub: false,
+    featherBedding: {checked:false, value:"Feather Bedding"},
+    tv: {checked:false, value:"TV"},
+    wifi: {checked:false, value:"WiFi"},
+    toiletries: {checked:false, value:"Toiletries"},
+    bathrobes: {checked:false, value:"Bathrobes"},
+    barFridge: {checked:false, value:"Bar Fridge"},
+    hairdryer: {checked:false, value:"Hair Dryer"},
+    breakfast: {checked:false, value:"Complimentary Breakfast"},
+    showerBathtub: {checked:false, value:"Shower Bathtub"} ,
   });
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setAmenitiesCheckboxes((prevCheckboxes) => ({
       ...prevCheckboxes,
-      [name]: checked,
+      name:{...name, [name.checked]: checked},
     }));
   };
 
   const handleAddNewRoom = (e) => {
     e.preventDefault();
+    const selectedOptions = Object.entries(amenitiesCheckboxes)
+      .filter(([_, isChecked]) => isChecked)
+      .map(([option]) => option);
     const room = {
       number,
       price,
       type,
       numBeds,
       maxGuests,
-      bookings,
-      amenities,
+      amenities: selectedOptions
     };
     // console.log(Array.from(roomImages));
     uploadRoomImages(number, Array.from(roomImages))
@@ -53,6 +55,7 @@ const NewRoomAdmin = () => {
       });
     // addNewRoom(room)
     // console.log(room)
+    // console.log(room);
   };
 
   return (
@@ -83,7 +86,7 @@ const NewRoomAdmin = () => {
                     Room Number
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     name="number"
                     id="number"
                     value={number}
@@ -103,9 +106,10 @@ const NewRoomAdmin = () => {
                     Room Price
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     name="price"
                     id="price"
+                    step="any"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Room price"
                     required
@@ -130,6 +134,7 @@ const NewRoomAdmin = () => {
                     placeholder="R950.00"
                     required
                     min={1}
+                    max={4}
                     value={maxGuests}
                     onChange={(e) => {
                       setMaxGuests(e.target.value);
@@ -174,6 +179,7 @@ const NewRoomAdmin = () => {
                     required
                     value={numBeds}
                     min={1}
+                    max={3}
                     onChange={(e) => {
                       setNumBeds(e.target.value);
                     }}
@@ -217,6 +223,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="featherBedding"
                           value="Feather Bedding"
+                          checked={amenitiesCheckboxes.featherBedding}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -234,6 +242,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="tv"
                           value="TV"
+                          checked={amenitiesCheckboxes.tv}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -252,6 +262,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="wifi"
                           value="Wifi"
+                          checked={amenitiesCheckboxes.wifi}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -269,6 +281,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="toiletries"
                           value="Toiletries"
+                          checked={amenitiesCheckboxes.toiletries}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -286,6 +300,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="bathrobes"
                           value="Bathrobes"
+                          checked={amenitiesCheckboxes.bathrobes}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -303,6 +319,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="barFridge"
                           value="Bar Fridge"
+                          checked={amenitiesCheckboxes.barFridge}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -320,6 +338,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="hairdryer"
                           value="Hairdryer"
+                          checked={amenitiesCheckboxes.hairdryer}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -337,6 +357,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="breakfast"
                           value="Complimentary Breakfast"
+                          checked={amenitiesCheckboxes.breakfast}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label
@@ -354,6 +376,8 @@ const NewRoomAdmin = () => {
                           type="checkbox"
                           name="showerBathtub"
                           value="Shower and bathtub"
+                          checked={amenitiesCheckboxes.showerBathtub}
+                          onChange={handleCheckboxChange}
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
                         <label

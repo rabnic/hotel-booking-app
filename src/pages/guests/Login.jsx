@@ -33,7 +33,7 @@ function Login() {
               const goTo = userDoc.role === "admin" ? "/admin" : "/";
               setTimeout((whereTo) => {
                 if (location.state && location.state.from === "confirmation") {
-                  navigate("/booking/confirmation");
+                  navigate("/booking/confirmation", {state: {room: location.state.room, booking: location.state.booking}});
                 } else {
                   navigate(whereTo);
                 }

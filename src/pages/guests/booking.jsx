@@ -24,7 +24,7 @@ const Booking = () => {
   const [roomUnderCheck, setRoomUnderCheck] = useState(roomState || null);
   const [checkInDate, setCheckInDate] = useState(today);
   const [checkOutDate, setCheckOutDate] = useState(tomorrow);
-  const [numberOfGuests, setNumberOfGuests] = useState(1)
+  const [numberOfGuests, setNumberOfGuests] = useState(1);
   const [isRoomAvailable, setIsRoomAvailable] = useState(false);
   const [isSimilarRoomAvailable, setIsSimilarRoomAvailable] = useState(false);
   const [similarRooms, setSimilarRooms] = useState([]);
@@ -45,7 +45,7 @@ const Booking = () => {
     guestEmail: "none",
     checkIn: new Date(`${checkInDate}T${checkInTime}`).getTime(),
     checkOut: new Date(`${checkOutDate}T${checkOutTime}`).getTime(),
-    guestsQuantity: 1,
+    guestsQuantity: numberOfGuests,
     totalCost: 0,
     status: "in-progress",
   };
@@ -100,7 +100,7 @@ const Booking = () => {
               });
             console.log("checking similar rooms availability");
           }
-        }, 1000);
+        }, 500);
       }
     });
     setIsLoading(false);
@@ -208,12 +208,12 @@ const Booking = () => {
               {isShowAlert && <Alert status={alertStatus} />}
 
               {isRoomAvailable && (
-                <BookRoomCard room={roomUnderCheck} booking />
+                <BookRoomCard room={roomUnderCheck} booking={booking} />
               )}
 
               {similarRooms &&
                 similarRooms.map((room) => {
-                  return <BookRoomCard room={room} booking />;
+                  return <BookRoomCard room={room} booking={booking} />;
                 })}
             </>
           )}

@@ -2,25 +2,52 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "../../App";
+import { addBooking } from "../../services/hotel.service";
 import Alert from "../../components/Alert";
 
 function BookingConfirmation() {
-  const location = useLocation();
+  const state = useLocation().state;
 
   const currentUser = useAuthContext();
-  const [roomToBeBooked, setRoomToBooked] = useState(location.state);
-  const [show, setShow] = useState(false);
+  const [roomToBeBooked, setRoomToBooked] = useState(state);
+  const [isBookingConfirmed, setIsBookingConfirmed] = useState(false);
   const [show2, setShow2] = useState(false);
 
-  useEffect(() => {
-    console.log(location.state);
-    window.scrollTo(0, 0);
-  }, [location]);
+  const getFormattedDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
 
-  const handleBookingConfrimation = () => {
-    if (!currentUser) {
-      alert("You need to be logged in to confirm booking");
-    }
+  const hotelStayInDays = ((checkInDate, checkOutData) => {
+
+    // Calculate the difference in timestamps
+    const differenceInMilliseconds = Math.abs(checkOutData - checkInDate);
+
+    // Convert the difference to days
+    const differenceInDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+
+    return differenceInDays;
+  })(state.booking.checkIn, state.booking.checkOut);
+
+  const getTotalCost = () => {
+    const totalCost = hotelStayInDays * state.room.price;
+    return totalCost.toFixed(2);
+  }
+
+  useEffect(() => {
+    console.log(state);
+    window.scrollTo(0, 0);
+  }, [state]);
+
+  const handleBookingConfirmation = () => {
+    const booking = { ...state.booking, guestEmail: currentUser.email, totalCost: getTotalCost() };
+    addBooking(state.room.id, booking).then(res => {
+      // alert("Booking confirmation successful!");
+      setIsBookingConfirmed(true);
+    }).catch(err => {
+      console.log(err.message);
+    })
   };
   return (
     <main className="mt-20 py-4 px-4 lg:w-3/4 mx-auto">
@@ -41,13 +68,13 @@ function BookingConfirmation() {
               <img
                 className="w-full"
                 alt="img of a girl posing"
-                src="https://i.ibb.co/QMdWfzX/component-image-one.png"
+                src={state.room.images[0]}
               />
             </div>
             <div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
               <div className="border-b border-gray-200 pb-6">
-                <p className="text-sm leading-none text-gray-600">
-                  Kgabo Molatja's great stay!
+                <p className="text-sm leading-none text-green-800 font-semibold italic">
+                  {currentUser && `${currentUser.name}'s great stay!`}
                 </p>
                 <h1
                   className="
@@ -60,22 +87,25 @@ function BookingConfirmation() {
 							mt-2
 						"
                 >
-                  Presidential Rooom
+                  {state.room.type} Rooom
                 </h1>
               </div>
               <div className="py-4 border-b border-gray-200 flex items-center gap-3">
-                <pan className="flex items-center">
+                <span className="flex items-center">
+
+                  <svg className="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" id="bedtime" x="0" y="0" version="1.1" viewBox="0 0 29 29" xmlSpace="preserve">
+                    <path d="M4 14v10a1 1 0 0 1-2 0V14a1 1 0 0 1 2 0z"></path>
+                    <path d="M2 14h25v9H2zM4 6v6h2v-1a1 1 0 011-1h5.5a1 1 0 011 1v1.008h2V11a1 1 0 011-1H22a1 1 0 011 1v1h2V6a2 2 0 00-2-2H6a2 2 0 00-2 2z"></path>
+                    <path d="M27 14v10a1 1 0 0 1-2 0V14a1 1 0 0 1 2 0z"></path>
+                  </svg>
+                  1 bed
+                </span>
+                <span className="flex items-center">
                   <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
                     <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                   </svg>
-                  1 room
-                </pan>
-                <pan className="flex items-center">
-                  <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
-                    <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                  </svg>
-                  2 guests
-                </pan>
+                  {state.booking.guestsQuantity} guests
+                </span>
 
               </div>
               <div className="pb-4 border-b border-gray-200 flex items-center justify-between">
@@ -88,9 +118,9 @@ function BookingConfirmation() {
               </div>
               <div className="mb-4">
 
-                <p className="text-base leading-4 my-7 text-gray-600 font-normal flex justify-between border-b border-gray-200">
-                  Tue, 25 July 23 – Wed, 26 July 23
-                  <span> 3 nights</span>
+                <p className="text-base leading-4 my-7 text-gray-600 font-semibold flex justify-between border-b border-gray-200">
+                  {`${getFormattedDate(state.booking.checkIn)} - ${getFormattedDate(state.booking.checkOut)}`}
+                  <span> {hotelStayInDays} night(s)</span>
                 </p>
 
                 <p className=" text-base lg:leading-tight leading-normal text-gray-600 mt-7  border-b border-gray-200 pb-4">
@@ -98,20 +128,28 @@ function BookingConfirmation() {
                   adventure during your stay, wishing you a truly great stay that surpasses all expectations!
                 </p>
 
-                <p className="text-base leading-4 mt-7 text-gray-600 font-semibold flex justify-between">
+                <p className="text-base leading-4 mt-7 text-gray-600 font-bold flex justify-between">
                   Total
-                  <span>R3500.00</span>
+                  <span>{`R${getTotalCost()}`}</span>
                 </p>
 
               </div>
               {currentUser ? (
-                <button
-                  onClick={handleBookingConfrimation}
-                  className="
-						focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none text-white bg-gray-800 w-full py-4 hover:bg-gray-700"
-                >
-                  Confirm Booking
-                </button>
+                isBookingConfirmed ?
+                  <Alert
+                    status={{
+                      type: "success",
+                      message: "Booking confirmed successfully!",
+                    }}
+                  />
+                  :
+                  <button
+                    onClick={handleBookingConfirmation}
+                    className="
+						focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-base flex items-center justify-center leading-none tracking-wider font-semibold text-orange-500 bg-gray-800 w-full py-4 hover:bg-gray-700"
+                  >
+                    Confirm Booking
+                  </button>
               ) : (
                 <>
                   <Alert
@@ -123,7 +161,7 @@ function BookingConfirmation() {
                   <div className="flex rounded-md shadow-sm" role="group">
                     <Link
                       to="/login"
-                      state={{ from: "confirmation" }}
+                      state={{ from: "confirmation", room: state.room, booking: state.booking }}
                       className="inline-flex group justify-center items-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-transparent  tracking-widest border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-orange-400 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
                     >
                       <svg
@@ -145,7 +183,7 @@ function BookingConfirmation() {
                     </Link>
                     <Link
                       to="/register"
-                      state={{ from: "confirmation" }}
+                      state={{ from: "confirmation", room: state.room, booking: state.booking }}
                       className="inline-flex group justify-center items-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-transparent tracking-widest border border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-orange-400 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
                     >
                       <svg

@@ -44,8 +44,8 @@ function Home() {
           <div className="lg:flex">
             <div className="xl:w-2/5 lg:w-2/5 py-2 xl:rounded-bl rounded-tl rounded-tr xl:rounded-tr-none">
               <div className="xl:w-5/6 xl:px-0 px-8 mx-auto">
-                <h2 className="text-5xl font-extrabold tracking-wide dark:text-white">Get Insight With Us</h2>
-                <h3 className="my-4 text-2xl text-gray-500">We are ready to present you your great stay.</h3>
+                <h2 className="text-5xl font-extrabold tracking-wide dark:text-white text-center">Get Insight With Us</h2>
+                <h3 className="my-4 text-2xl text-gray-500 text-center">We are ready to present you your great stay.</h3>
                 <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
                 <p className="mb-4 text-lg font-normal text-gray-700 dark:text-gray-400 flex gap-2">
                   <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -76,8 +76,8 @@ function Home() {
             </div>
             <div className="xl:w-3/5 lg:w-3/5 bg-gray-200 pt-5 pb-5 xl:pr-5 xl:pl-0 rounded-tr rounded-br lg:flex-1">
               <div className="w-full h-full">
-                <iframe className="w-full h-full min-h-[100%]" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14374.57545585607!2d28.2681143!3d-25.7492884!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e956044e649a34b%3A0xff7146688dfcfc17!2sThe%20Innovation%20Hub%20Management%20Company!5e0!3m2!1sen!2sza!4v1690272035158!5m2!1sen!2sza" 
-                allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                <iframe className="w-full h-full min-h-[100%]" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14374.57545585607!2d28.2681143!3d-25.7492884!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e956044e649a34b%3A0xff7146688dfcfc17!2sThe%20Innovation%20Hub%20Management%20Company!5e0!3m2!1sen!2sza!4v1690272035158!5m2!1sen!2sza"
+                  allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
               </div>
             </div>
           </div>

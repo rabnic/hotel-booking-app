@@ -11,6 +11,7 @@ import NewRoomAdmin from "./pages/admin/NewRoomAdmin";
 import HomeAdmin from "./pages/admin/HomeAdmin";
 import RoomsAdmin from "./pages/admin/RoomsAdmin";
 import UpdateRoomAdmin from "./pages/admin/UpdateRoomAdmin";
+import HotelInfoEditor from "./pages/admin/HotelInfo";
 
 function AppAdmin({ user }) {
   // testAdd();
@@ -23,6 +24,7 @@ function AppAdmin({ user }) {
       <NavbarAdmin user={user} />
       <Routes>
         <Route path="admin" element={<HomeAdmin />} />
+        <Route path="admin/hotel-info" element={<HotelInfoEditor />} />
         <Route path="admin/rooms" element={<RoomsAdmin />} />
         <Route path="admin/rooms/new" element={<NewRoomAdmin />} />
         <Route path="admin/rooms/update" element={<UpdateRoomAdmin />} />

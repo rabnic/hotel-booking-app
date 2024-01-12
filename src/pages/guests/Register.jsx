@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import {
   createGuestAuth,
@@ -8,6 +8,9 @@ import {
 
 function Register() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +32,14 @@ function Register() {
           phone,
           booking: "",
           role: "guest",
+        }).then(res => {
+          setTimeout(() => {
+            if (location.state && location.state.from === "confirmation") {
+              navigate("/booking/confirmation", { state: { room: location.state.room, booking: location.state.booking } });
+            } else {
+              navigate('/');
+            }
+          }, 800)
         });
       })
       .catch((err) => {
